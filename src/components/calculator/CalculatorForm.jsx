@@ -9,12 +9,12 @@ import {
 
 function FormSection({ icon: Icon, title, children }) {
   return (
-    <GlassCard className="animate-slide-up">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 rounded-xl bg-emerald-500/10">
-          <Icon className="w-5 h-5 text-emerald-500" />
+    <GlassCard>
+      <div className="flex items-center gap-3 mb-5 sm:mb-6">
+        <div className="p-2 rounded-[var(--radius-md)] bg-[color-mix(in_srgb,var(--brand-primary)_10%,transparent)]">
+          <Icon className="w-5 h-5 text-[var(--brand-primary)]" aria-hidden="true" />
         </div>
-        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
+        <h3 className="heading-lg">{title}</h3>
       </div>
       {children}
     </GlassCard>
@@ -23,7 +23,7 @@ function FormSection({ icon: Icon, title, children }) {
 
 function Label({ htmlFor, children }) {
   return (
-    <label htmlFor={htmlFor} className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
+    <label htmlFor={htmlFor} className="label block mb-1.5">
       {children}
     </label>
   )
@@ -35,7 +35,7 @@ function Select({ id, value, onChange, options }) {
       id={id}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full px-4 py-2.5 rounded-xl glass text-slate-900 dark:text-white border-0 focus:ring-2 focus:ring-emerald-500"
+      className="input-base appearance-none cursor-pointer"
     >
       {options.map(([val, label]) => (
         <option key={val} value={val}>{label}</option>
@@ -55,11 +55,14 @@ function NumberInput({ id, value, onChange, min = 0, max = 10000, step = 1, unit
         min={min}
         max={max}
         step={step}
-        className="w-full px-4 py-2.5 rounded-xl glass text-slate-900 dark:text-white border-0 focus:ring-2 focus:ring-emerald-500"
+        className={`input-base ${unit ? 'pr-14' : ''}`}
         aria-describedby={unit ? `${id}-unit` : undefined}
       />
       {unit && (
-        <span id={`${id}-unit`} className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-slate-500">
+        <span
+          id={`${id}-unit`}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted pointer-events-none"
+        >
           {unit}
         </span>
       )}
@@ -75,10 +78,10 @@ export default function CalculatorForm({ inputs, onUpdate }) {
   const s = inputs.shopping
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <FormSection icon={Car} title="Transportation">
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="sm:col-span-2">
             <Label htmlFor="transport-mode">Primary Mode</Label>
             <Select
               id="transport-mode"
@@ -123,7 +126,7 @@ export default function CalculatorForm({ inputs, onUpdate }) {
       </FormSection>
 
       <FormSection icon={Zap} title="Energy Consumption">
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="energy-electricity">Monthly Electricity</Label>
             <NumberInput
@@ -157,7 +160,7 @@ export default function CalculatorForm({ inputs, onUpdate }) {
       </FormSection>
 
       <FormSection icon={Trash2} title="Waste Management">
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="waste-recycling">Recycling Frequency</Label>
             <Select
@@ -189,7 +192,7 @@ export default function CalculatorForm({ inputs, onUpdate }) {
       </FormSection>
 
       <FormSection icon={ShoppingBag} title="Shopping Habits">
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="shop-clothing">Clothing Purchases</Label>
             <Select

@@ -6,22 +6,18 @@ export default function RecommendationCard({ recommendation }) {
   const { title, description, impactLevel, estimatedReduction, category } = recommendation
 
   return (
-    <GlassCard hover className="relative">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <Badge impact={impactLevel}>{impactLevel} Impact</Badge>
-            <span className="text-xs text-slate-500 capitalize">{category}</span>
-          </div>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{title}</h3>
-          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{description}</p>
-        </div>
+    <GlassCard hover className="h-full flex flex-col">
+      <div className="flex items-center gap-2 mb-2 flex-wrap">
+        <Badge impact={impactLevel}>{impactLevel} Impact</Badge>
+        <span className="text-xs text-muted capitalize">{category}</span>
       </div>
+      <h3 className="heading-lg text-base">{title}</h3>
+      <p className="mt-2 body-sm text-muted leading-relaxed flex-1">{description}</p>
       {estimatedReduction > 0 && (
-        <div className="mt-4 flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
-          <ArrowDownRight className="w-4 h-4" />
+        <div className="mt-4 flex items-center gap-1.5 text-[var(--color-success)]">
+          <ArrowDownRight className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
           <span className="text-sm font-medium">
-            Est. reduction: {estimatedReduction.toLocaleString()} kg CO₂/year
+            Est. {estimatedReduction.toLocaleString()} kg CO₂/year saved
           </span>
         </div>
       )}

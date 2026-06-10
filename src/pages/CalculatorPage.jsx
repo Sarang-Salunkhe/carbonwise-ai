@@ -28,16 +28,17 @@ export default function CalculatorPage() {
   return (
     <div>
       <SectionHeader
+        badge="Step 1"
         title="Carbon Footprint Assessment"
-        subtitle="Step 1 of your sustainability journey — answer a few questions about your lifestyle to estimate your annual carbon footprint."
+        subtitle="Answer a few questions about your lifestyle to estimate your annual carbon footprint using science-backed emission factors."
       />
 
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="lg:col-span-2 min-w-0">
           <CalculatorForm inputs={state.inputs} onUpdate={updateInputs} />
 
-          <div className="mt-6 flex flex-wrap gap-4">
-            <Button size="lg" onClick={handleCalculate}>
+          <div className="mt-5 sm:mt-6">
+            <Button size="lg" onClick={handleCalculate} className="w-full sm:w-auto">
               <Calculator className="w-5 h-5" aria-hidden="true" />
               Calculate My Footprint
             </Button>
@@ -53,7 +54,7 @@ export default function CalculatorPage() {
           )}
         </div>
 
-        <div className="lg:sticky lg:top-24 lg:self-start">
+        <div className="lg:sticky lg:top-20 lg:self-start">
           <GlassCard className="text-center">
             {footprint ? (
               <>
@@ -61,24 +62,25 @@ export default function CalculatorPage() {
                   score={state.currentScore}
                   grade={state.currentGrade?.grade}
                   label={state.currentGrade?.label}
+                  size={140}
                 />
-                <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
-                  <p className="text-sm text-slate-500">Annual Footprint</p>
-                  <p className="text-3xl font-bold text-slate-900 dark:text-white mt-1">
+                <div className="mt-5 sm:mt-6 pt-5 sm:pt-6 border-t border-[var(--border-subtle)]">
+                  <p className="label text-muted">Annual Footprint</p>
+                  <p className="metric-value mt-1">
                     {footprint.totalFootprint.toLocaleString()}
-                    <span className="text-sm font-normal text-slate-500 ml-1">kg CO₂</span>
+                    <span className="text-sm font-normal text-muted ml-1">kg CO₂</span>
                   </p>
                 </div>
                 {!justCalculated && (
-                  <Button className="mt-6 w-full" onClick={handleViewResults}>
+                  <Button className="mt-5 w-full" onClick={handleViewResults}>
                     View My Results
                   </Button>
                 )}
               </>
             ) : (
-              <div className="py-12">
-                <Calculator className="w-12 h-12 text-emerald-500 mx-auto mb-4" aria-hidden="true" />
-                <p className="text-slate-600 dark:text-slate-400">
+              <div className="py-8 sm:py-12">
+                <Calculator className="w-10 h-10 sm:w-12 sm:h-12 text-[var(--brand-primary)] mx-auto mb-4" aria-hidden="true" />
+                <p className="body-sm text-muted px-2">
                   Fill in your details and click Calculate to see your Green Score and footprint estimate.
                 </p>
               </div>

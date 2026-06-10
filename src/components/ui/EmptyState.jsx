@@ -8,24 +8,18 @@ export default function EmptyState({
   description,
   ctaLabel = 'Start Carbon Assessment',
   ctaTo = '/calculator',
-  children,
 }) {
   return (
     <div
-      className="text-center py-16 md:py-24 px-4"
+      className="text-center py-12 sm:py-20 px-4 max-w-lg mx-auto animate-fade-in"
       role="status"
       aria-live="polite"
     >
-      <div className="inline-flex p-5 rounded-3xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 mb-6">
-        <Icon className="w-12 h-12 text-emerald-500" aria-hidden="true" />
+      <div className="inline-flex p-5 rounded-2xl bg-[color-mix(in_srgb,var(--brand-primary)_10%,transparent)] border border-[color-mix(in_srgb,var(--brand-primary)_15%,transparent)] mb-6">
+        <Icon className="w-10 h-10 sm:w-12 sm:h-12 text-[var(--brand-primary)]" aria-hidden="true" />
       </div>
-      <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-4">
-        {title}
-      </h2>
-      <p className="text-slate-600 dark:text-slate-400 mb-8 max-w-lg mx-auto leading-relaxed">
-        {description}
-      </p>
-      {children}
+      <h2 className="heading-xl mb-3">{title}</h2>
+      <p className="body-sm text-muted mb-8 leading-relaxed">{description}</p>
       <Link to={ctaTo} className="inline-block">
         <Button size="lg">
           {ctaLabel}

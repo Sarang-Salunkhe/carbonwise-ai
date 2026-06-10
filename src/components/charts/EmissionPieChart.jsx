@@ -1,52 +1,66 @@
+import { memo, useMemo } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts'
-
-const COLORS = ['#10b981', '#14b8a6', '#06b6d4', '#8b5cf6', '#f59e0b']
+import { getChartColors, getTooltipStyle } from '../../data/chartTheme'
+import { useTheme } from '../../hooks/useTheme'
 
 const LABELS = {
-  transportation: 'Transportation',
+  transportation: 'Transport',
   food: 'Food',
   energy: 'Energy',
   waste: 'Waste',
   shopping: 'Shopping',
 }
 
-export default function EmissionPieChart({ breakdown }) {
-  if (!breakdown) return null
+function EmissionPieChart({ breakdown }) {
+  const { theme } = useTheme()
+  const colors = getChartColors()
 
-  const data = Object.entries(breakdown).map(([key, value]) => ({
-    name: LABELS[key] || key,
-    value,
-  }))
+  const data = useMemo(
+    () =>
+      breakdown
+        ? Object.entries(breakdown).map(([key, value]) => ({
+            name: LABELS[key] || key,
+            value,
+          }))
+        : [],
+    [breakdown],
+  )
+
+  if (!breakdown || data.length === 0) return null
 
   return (
-    <div className="w-full h-72" role="img" aria-label="Emission breakdown pie chart">
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="chart-container w-full" role="img" aria-label="Emission breakdown pie chart">
+      <ResponsiveContainer width="100%" height="100%" debounce={50}>
         <PieChart>
           <Pie
             data={data}
             cx="50%"
-            cy="50%"
-            innerRadius={60}
-            outerRadius={100}
-            paddingAngle={3}
+            cy="45%"
+            innerRadius="45%"
+            outerRadius="72%"
+            paddingAngle={2}
             dataKey="value"
+            isAnimationActive={false}
           >
             {data.map((_, index) => (
-              <Cell key={index} fill={COLORS[index % COLORS.length]} />
+              <Cell key={`${theme}-${index}`} fill={colors[index % colors.length]} stroke="transparent" />
             ))}
           </Pie>
           <Tooltip
-            formatter={(value) => [`${value.toLocaleString()} kg CO₂`, 'Emissions']}
-            contentStyle={{
-              background: 'rgba(255,255,255,0.9)',
-              border: 'none',
-              borderRadius: '12px',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-            }}
+            formatter={(value) => [`${Number(value).toLocaleString()} kg CO₂`, 'Emissions']}
+            contentStyle={getTooltipStyle()}
           />
-          <Legend />
+          <Legend
+            layout="horizontal"
+            verticalAlign="bottom"
+            wrapperStyle={{ fontSize: '12px', paddingTop: '8px' }}
+            iconType="circle"
+            iconSize={8}
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>
   )
 }
+
+export default memo(EmissionPieChart)

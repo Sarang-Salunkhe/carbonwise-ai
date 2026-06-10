@@ -1,4 +1,6 @@
+import { memo, useMemo } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { getChartColors, getTooltipStyle, getGridColor, getAxisColor } from '../../data/chartTheme'
 
 const LABELS = {
   transportation: 'Transport',
@@ -8,38 +10,57 @@ const LABELS = {
   shopping: 'Shopping',
 }
 
-export default function EmissionBarChart({ breakdown }) {
-  if (!breakdown) return null
+function EmissionBarChart({ breakdown }) {
+  const colors = getChartColors()
+  const gridColor = getGridColor()
+  const axisColor = getAxisColor()
 
-  const data = Object.entries(breakdown).map(([key, value]) => ({
-    name: LABELS[key] || key,
-    emissions: value,
-  }))
+  const data = useMemo(
+    () =>
+      breakdown
+        ? Object.entries(breakdown).map(([key, value]) => ({
+            name: LABELS[key] || key,
+            emissions: value,
+          }))
+        : [],
+    [breakdown],
+  )
+
+  if (!breakdown || data.length === 0) return null
 
   return (
-    <div className="w-full h-72" role="img" aria-label="Emission breakdown bar chart">
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-          <YAxis tick={{ fontSize: 12 }} />
-          <Tooltip
-            formatter={(value) => [`${value.toLocaleString()} kg CO₂`, 'Annual']}
-            contentStyle={{
-              background: 'rgba(255,255,255,0.9)',
-              border: 'none',
-              borderRadius: '12px',
-            }}
+    <div className="chart-container w-full" role="img" aria-label="Emission breakdown bar chart">
+      <ResponsiveContainer width="100%" height="100%" debounce={50}>
+        <BarChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
+          <XAxis
+            dataKey="name"
+            tick={{ fontSize: 11, fill: axisColor }}
+            axisLine={false}
+            tickLine={false}
           />
-          <Bar dataKey="emissions" fill="url(#barGradient)" radius={[8, 8, 0, 0]} />
-          <defs>
-            <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#10b981" />
-              <stop offset="100%" stopColor="#06b6d4" />
-            </linearGradient>
-          </defs>
+          <YAxis
+            tick={{ fontSize: 11, fill: axisColor }}
+            axisLine={false}
+            tickLine={false}
+            width={48}
+          />
+          <Tooltip
+            formatter={(value) => [`${Number(value).toLocaleString()} kg CO₂`, 'Annual']}
+            contentStyle={getTooltipStyle()}
+            cursor={{ fill: 'color-mix(in srgb, var(--brand-primary) 6%, transparent)' }}
+          />
+          <Bar
+            dataKey="emissions"
+            fill={colors[0]}
+            radius={[6, 6, 0, 0]}
+            maxBarSize={48}
+            isAnimationActive={false}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>
   )
 }
+
+export default memo(EmissionBarChart)

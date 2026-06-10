@@ -1,33 +1,37 @@
 import { Outlet, useLocation } from 'react-router-dom'
+import { useMemo } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import ScrollToTop from './ScrollToTop'
-import JourneySteps from '../ui/JourneySteps'
+import JourneyBar from './JourneyBar'
 import { useTheme } from '../../hooks/useTheme'
-import { useCarbon } from '../../hooks/useCarbon'
+import { useJourneyProgress } from '../../hooks/useJourneyProgress'
 
 export default function Layout() {
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
-  const { state } = useCarbon()
+  const journey = useJourneyProgress()
 
   const showJourney = location.pathname !== '/'
 
+  const journeyProps = useMemo(
+    () => ({
+      pathname: location.pathname,
+      hash: location.hash,
+      ...journey,
+    }),
+    [location.pathname, location.hash, journey],
+  )
+
   return (
-    <div className="min-h-screen gradient-bg flex flex-col">
+    <div className="min-h-screen gradient-bg flex flex-col overflow-x-hidden">
       <ScrollToTop />
       <Navbar theme={theme} onToggleTheme={toggleTheme} />
-      <main id="main-content" className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {showJourney && (
-          <JourneySteps
-            compact
-            currentPath={location.pathname}
-            hash={location.hash}
-            hasFootprint={!!state.currentFootprint}
-            historyLength={state.history.length}
-            simulatorUsed={state.simulatorUsed}
-          />
-        )}
+      <main
+        id="main-content"
+        className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8"
+      >
+        {showJourney && <JourneyBar {...journeyProps} />}
         <Outlet />
       </main>
       <Footer />

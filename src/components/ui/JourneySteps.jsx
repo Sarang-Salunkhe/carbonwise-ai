@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Home,
@@ -37,41 +38,36 @@ function getActiveStep(pathname, hash) {
 }
 
 function getCompletedSteps(hasFootprint, historyLength, simulatorUsed) {
-  const completed = new Set()
-  completed.add('home')
+  const completed = new Set(['home'])
   if (hasFootprint) {
-    completed.add('calculator')
-    completed.add('dashboard')
-    completed.add('insights')
-    completed.add('coach')
-    completed.add('achievements')
+    ['calculator', 'dashboard', 'insights', 'coach', 'achievements'].forEach((s) => completed.add(s))
   }
   if (simulatorUsed) completed.add('simulator')
   if (historyLength >= 2) completed.add('progress')
   return completed
 }
 
-export default function JourneySteps({ currentPath, hash = '', hasFootprint, historyLength = 0, simulatorUsed = false, compact = false }) {
+function JourneySteps({ currentPath, hash = '', hasFootprint, historyLength = 0, simulatorUsed = false, compact = false }) {
   const active = getActiveStep(currentPath, hash)
   const completed = getCompletedSteps(hasFootprint, historyLength, simulatorUsed)
 
   if (compact) {
-    const currentIndex = STEPS.findIndex((s) => s.id === active)
+    const currentIndex = Math.max(0, STEPS.findIndex((s) => s.id === active))
     const current = STEPS[currentIndex]
     const next = STEPS[currentIndex + 1]
 
     return (
-      <nav aria-label="Your sustainability journey" className="glass rounded-2xl p-4 mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div className="flex items-center gap-3">
+      <nav aria-label="Your sustainability journey" className="card p-3 sm:p-4 mb-5 sm:mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             {current && (
               <>
-                <div className="p-2 rounded-xl bg-emerald-500/10">
-                  <current.icon className="w-4 h-4 text-emerald-500" aria-hidden="true" />
+                <div className="p-2 rounded-[var(--radius-md)] bg-[color-mix(in_srgb,var(--brand-primary)_10%,transparent)] flex-shrink-0">
+                  <current.icon className="w-4 h-4 text-[var(--brand-primary)]" aria-hidden="true" />
                 </div>
-                <div>
-                  <p className="text-xs text-slate-500">Step {currentIndex + 1} of {STEPS.length}</p>
-                  <p className="text-sm font-semibold text-slate-900 dark:text-white">{current.label}</p>
+                <div className="min-w-0">
+                  <p className="text-[11px] sm:text-xs text-muted">Step {currentIndex + 1} of {STEPS.length}</p>
+                  <p className="text-sm font-semibold text-heading truncate">{current.label}</p>
                 </div>
               </>
             )}
@@ -79,15 +75,15 @@ export default function JourneySteps({ currentPath, hash = '', hasFootprint, his
           {next && (
             <Link
               to={next.path}
-              className="text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 rounded"
+              className="text-xs sm:text-sm font-medium text-[var(--brand-primary)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-primary)] rounded whitespace-nowrap"
             >
               Next: {next.label} →
             </Link>
           )}
         </div>
-        <div className="mt-3 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+        <div className="mt-2.5 sm:mt-3 h-1 bg-[var(--surface-interactive)] rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-500"
+            className="h-full gradient-brand rounded-full transition-[width] duration-500"
             style={{ width: `${((currentIndex + 1) / STEPS.length) * 100}%` }}
             role="progressbar"
             aria-valuenow={currentIndex + 1}
@@ -101,48 +97,43 @@ export default function JourneySteps({ currentPath, hash = '', hasFootprint, his
   }
 
   return (
-    <nav aria-label="Sustainability journey" className="py-8">
-      <p className="text-center text-sm font-medium text-slate-500 dark:text-slate-400 mb-6">
-        Your guided sustainability journey
-      </p>
-      <ol className="flex flex-wrap justify-center gap-2 md:gap-0 md:justify-between max-w-4xl mx-auto">
-        {STEPS.map((step, i) => {
+    <nav aria-label="Sustainability journey" className="py-6 sm:py-8 overflow-x-auto no-scrollbar">
+      <p className="text-center label text-muted mb-5 sm:mb-6">Your guided sustainability journey</p>
+      <ol className="flex min-w-max sm:min-w-0 sm:flex-wrap justify-start sm:justify-center gap-1 sm:gap-2 px-2 sm:px-0">
+        {STEPS.map((step) => {
           const isActive = step.id === active
           const isCompleted = completed.has(step.id)
           const Icon = step.icon
 
           return (
-            <li key={step.id} className="flex items-center">
+            <li key={step.id}>
               <Link
                 to={step.path}
-                className={`flex flex-col items-center gap-1.5 px-2 py-2 rounded-xl transition-colors min-w-[4.5rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 ${
+                className={`flex flex-col items-center gap-1 px-2 py-2 rounded-[var(--radius-md)] transition-colors min-w-[4rem] sm:min-w-[4.5rem] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--brand-primary)] ${
                   isActive
-                    ? 'text-emerald-600 dark:text-emerald-400'
+                    ? 'text-[var(--brand-primary)]'
                     : isCompleted
-                      ? 'text-teal-600 dark:text-teal-400'
-                      : 'text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300'
+                      ? 'text-[var(--brand-secondary)]'
+                      : 'text-muted hover:text-[var(--text-secondary)]'
                 }`}
                 aria-current={isActive ? 'step' : undefined}
               >
                 <span
-                  className={`relative p-2.5 rounded-xl ${
+                  className={`relative p-2 sm:p-2.5 rounded-[var(--radius-md)] ${
                     isActive
-                      ? 'bg-emerald-500/15 ring-2 ring-emerald-500/30'
+                      ? 'bg-[color-mix(in_srgb,var(--brand-primary)_12%,transparent)] ring-1 ring-[color-mix(in_srgb,var(--brand-primary)_25%,transparent)]'
                       : isCompleted
-                        ? 'bg-teal-500/10'
-                        : 'bg-slate-100 dark:bg-slate-800'
+                        ? 'bg-[color-mix(in_srgb,var(--brand-secondary)_10%,transparent)]'
+                        : 'bg-[var(--surface-interactive)]'
                   }`}
                 >
-                  <Icon className="w-4 h-4" aria-hidden="true" />
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
                   {isCompleted && !isActive && (
-                    <Check className="absolute -top-1 -right-1 w-3.5 h-3.5 text-teal-500 bg-white dark:bg-slate-900 rounded-full" aria-hidden="true" />
+                    <Check className="absolute -top-0.5 -right-0.5 w-3 h-3 text-[var(--brand-secondary)]" aria-hidden="true" />
                   )}
                 </span>
-                <span className="text-xs font-medium text-center leading-tight">{step.label}</span>
+                <span className="text-[10px] sm:text-xs font-medium text-center leading-tight">{step.label}</span>
               </Link>
-              {i < STEPS.length - 1 && (
-                <span className="hidden md:block w-4 h-px bg-slate-200 dark:bg-slate-700 mx-0.5" aria-hidden="true" />
-              )}
             </li>
           )
         })}
@@ -150,3 +141,5 @@ export default function JourneySteps({ currentPath, hash = '', hasFootprint, his
     </nav>
   )
 }
+
+export default memo(JourneySteps)

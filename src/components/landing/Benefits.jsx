@@ -1,4 +1,6 @@
-import { Eye, TrendingUp, Leaf, Repeat } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { Eye, TrendingUp, Leaf, Repeat, ArrowRight } from 'lucide-react'
+import Button from '../ui/Button'
 
 const benefits = [
   {
@@ -25,24 +27,34 @@ const benefits = [
 
 export default function Benefits() {
   return (
-    <section className="py-16" aria-labelledby="benefits-heading">
-      <div className="glass-strong rounded-3xl p-8 md:p-12">
-        <div className="text-center mb-12">
-          <h2 id="benefits-heading" className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">
-            Why <span className="gradient-text">CarbonWise AI</span>?
+    <section className="py-12 sm:py-20" aria-labelledby="benefits-heading">
+      <div className="card p-6 sm:p-10 md:p-12">
+        <div className="text-center mb-10 sm:mb-12">
+          <p className="label text-[var(--brand-primary)] mb-2">Why CarbonWise</p>
+          <h2 id="benefits-heading" className="heading-xl sm:text-3xl md:text-4xl">
+            Built for <span className="gradient-text">Real Impact</span>
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {benefits.map((benefit) => (
             <div key={benefit.title} className="text-center">
-              <div className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 mb-4">
-                <benefit.icon className="w-8 h-8 text-emerald-500" />
+              <div className="inline-flex p-3.5 rounded-2xl bg-[color-mix(in_srgb,var(--brand-primary)_8%,transparent)] border border-[color-mix(in_srgb,var(--brand-primary)_12%,transparent)] mb-4">
+                <benefit.icon className="w-6 h-6 sm:w-7 sm:h-7 text-[var(--brand-primary)]" aria-hidden="true" />
               </div>
-              <h3 className="font-semibold text-slate-900 dark:text-white">{benefit.title}</h3>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{benefit.description}</p>
+              <h3 className="heading-lg text-base sm:text-lg">{benefit.title}</h3>
+              <p className="mt-2 body-sm text-muted">{benefit.description}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-10 sm:mt-12 text-center">
+          <Link to="/calculator">
+            <Button size="lg">
+              Start Your Assessment
+              <ArrowRight className="w-5 h-5" aria-hidden="true" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,10 +1,13 @@
-export default function SectionHeader({ title, subtitle, className = '' }) {
+export default function SectionHeader({ title, subtitle, className = '', badge }) {
   return (
-    <div className={`mb-8 ${className}`}>
-      <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">{title}</h2>
-      {subtitle && (
-        <p className="mt-2 text-slate-600 dark:text-slate-400 max-w-2xl">{subtitle}</p>
+    <header className={`mb-6 sm:mb-8 ${className}`}>
+      {badge && (
+        <span className="inline-block label text-[var(--brand-primary)] mb-2">{badge}</span>
       )}
-    </div>
+      <h2 className="heading-xl">{title}</h2>
+      {subtitle && (
+        <p className="mt-2 body-sm text-muted max-w-2xl">{subtitle}</p>
+      )}
+    </header>
   )
 }

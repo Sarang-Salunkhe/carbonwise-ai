@@ -1,71 +1,76 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react'
 import Button from '../ui/Button'
+
+const steps = [
+  'Complete a 5-minute lifestyle assessment',
+  'Get your Green Score and emission breakdown',
+  'Follow AI-powered recommendations to reduce impact',
+]
 
 export default function Hero() {
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden" aria-labelledby="hero-heading">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-emerald-400/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl" />
+    <section className="relative py-12 sm:py-16 md:py-24 overflow-hidden" aria-labelledby="hero-heading">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="absolute -top-32 -right-32 w-72 sm:w-96 h-72 sm:h-96 bg-[color-mix(in_srgb,var(--brand-primary)_12%,transparent)] rounded-full blur-3xl" />
+        <div className="absolute -bottom-32 -left-32 w-72 sm:w-96 h-72 sm:h-96 bg-[color-mix(in_srgb,var(--brand-accent)_10%,transparent)] rounded-full blur-3xl" />
       </div>
 
-      <div className="relative grid lg:grid-cols-2 gap-12 items-center">
-        <div className="animate-slide-up">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-6">
-            <Sparkles className="w-4 h-4" aria-hidden="true" />
-            Intelligent Sustainability Platform
+      <div className="relative grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        <div className="animate-slide-up max-w-xl mx-auto lg:mx-0 text-center lg:text-left">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full glass text-xs sm:text-sm font-medium text-[var(--brand-primary)] mb-5 sm:mb-6">
+            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4" aria-hidden="true" />
+            AI-Powered Sustainability Platform
           </div>
 
-          <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight tracking-tight">
+          <h1 id="hero-heading" className="heading-display">
             Understand Your{' '}
             <span className="gradient-text">Carbon Footprint</span>
           </h1>
 
-          <p className="mt-6 text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl">
-            Measure your impact in minutes, get personalized recommendations, and track your progress —
-            no login required.
+          <p className="mt-4 sm:mt-6 body-lg max-w-xl mx-auto lg:mx-0">
+            Measure your environmental impact, get personalized insights, and build
+            sustainable habits — all in your browser, no account required.
           </p>
 
-          <div className="mt-4 text-sm text-slate-500 dark:text-slate-400 space-y-1">
-            <p>1. Complete a quick lifestyle assessment</p>
-            <p>2. View your Green Score and emission breakdown</p>
-            <p>3. Follow tailored insights to reduce your footprint</p>
-          </div>
+          <ul className="mt-5 sm:mt-6 space-y-2.5 text-left max-w-md mx-auto lg:mx-0">
+            {steps.map((step) => (
+              <li key={step} className="flex items-start gap-2.5 body-sm">
+                <CheckCircle2 className="w-4 h-4 text-[var(--brand-primary)] flex-shrink-0 mt-0.5" aria-hidden="true" />
+                <span>{step}</span>
+              </li>
+            ))}
+          </ul>
 
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link to="/calculator">
-              <Button size="lg">
+          <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row flex-wrap gap-3 justify-center lg:justify-start">
+            <Link to="/calculator" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto">
                 Start Carbon Assessment
                 <ArrowRight className="w-5 h-5" aria-hidden="true" />
               </Button>
             </Link>
-            <a href="#how-it-works">
-              <Button variant="secondary" size="lg">
+            <a href="#how-it-works" className="w-full sm:w-auto">
+              <Button variant="secondary" size="lg" className="w-full sm:w-auto">
                 How It Works
               </Button>
             </a>
           </div>
 
-          <div className="mt-10 flex items-center gap-8 text-sm text-slate-500 dark:text-slate-400">
-            <div>
-              <p className="text-2xl font-bold text-slate-900 dark:text-white">5 min</p>
-              <p>Assessment</p>
-            </div>
-            <div className="w-px h-10 bg-slate-200 dark:bg-slate-700" aria-hidden="true" />
-            <div>
-              <p className="text-2xl font-bold text-slate-900 dark:text-white">100</p>
-              <p>Green Score</p>
-            </div>
-            <div className="w-px h-10 bg-slate-200 dark:bg-slate-700" aria-hidden="true" />
-            <div>
-              <p className="text-2xl font-bold text-slate-900 dark:text-white">0</p>
-              <p>Login Required</p>
-            </div>
+          <div className="mt-8 sm:mt-10 grid grid-cols-3 gap-4 sm:gap-8 max-w-sm mx-auto lg:mx-0">
+            {[
+              { value: '5 min', label: 'Assessment' },
+              { value: '100', label: 'Green Score' },
+              { value: 'Free', label: 'Forever' },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center lg:text-left">
+                <p className="metric-value text-xl sm:text-2xl">{stat.value}</p>
+                <p className="text-xs sm:text-sm text-muted mt-0.5">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="relative flex justify-center animate-float">
+        <div className="relative flex justify-center animate-float px-4 sm:px-0">
           <HeroIllustration />
         </div>
       </div>
@@ -75,46 +80,31 @@ export default function Hero() {
 
 function HeroIllustration() {
   return (
-    <div className="relative w-full max-w-md aspect-square" aria-hidden="true">
-      <div className="absolute inset-0 rounded-3xl glass-strong p-8">
+    <div className="relative w-full max-w-[min(100%,360px)] aspect-square" aria-hidden="true">
+      <div className="absolute inset-0 rounded-2xl sm:rounded-3xl card p-6 sm:p-8">
         <svg viewBox="0 0 400 400" className="w-full h-full">
           <defs>
             <linearGradient id="earthGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#10b981" />
-              <stop offset="50%" stopColor="#14b8a6" />
-              <stop offset="100%" stopColor="#06b6d4" />
-            </linearGradient>
-            <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#34d399" />
-              <stop offset="100%" stopColor="#059669" />
+              <stop offset="0%" stopColor="var(--brand-primary)" />
+              <stop offset="100%" stopColor="var(--brand-accent)" />
             </linearGradient>
           </defs>
-          <circle cx="200" cy="200" r="120" fill="url(#earthGrad)" opacity="0.15" />
-          <circle cx="200" cy="200" r="90" fill="url(#earthGrad)" opacity="0.3" />
-          <circle cx="200" cy="200" r="60" fill="url(#earthGrad)" />
-          <path d="M200 140 Q160 180 170 220 Q200 200 230 220 Q240 180 200 140" fill="url(#leafGrad)" opacity="0.9" />
-          <path d="M200 160 Q175 190 180 215 Q200 205 220 215 Q225 190 200 160" fill="#ecfdf5" opacity="0.6" />
-          <circle cx="130" cy="150" r="8" fill="#10b981" opacity="0.6">
-            <animate attributeName="cy" values="150;140;150" dur="3s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="280" cy="170" r="6" fill="#06b6d4" opacity="0.6">
-            <animate attributeName="cy" values="170;160;170" dur="4s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="150" cy="280" r="5" fill="#14b8a6" opacity="0.6">
-            <animate attributeName="cy" values="280;270;280" dur="3.5s" repeatCount="indefinite" />
-          </circle>
-          <text x="200" y="330" textAnchor="middle" fill="currentColor" className="text-slate-600 dark:text-slate-300" fontSize="14" fontWeight="600">
+          <circle cx="200" cy="200" r="120" fill="url(#earthGrad)" opacity="0.1" />
+          <circle cx="200" cy="200" r="90" fill="url(#earthGrad)" opacity="0.2" />
+          <circle cx="200" cy="200" r="60" fill="url(#earthGrad)" opacity="0.85" />
+          <path d="M200 140 Q160 180 170 220 Q200 200 230 220 Q240 180 200 140" fill="white" opacity="0.25" />
+          <text x="200" y="330" textAnchor="middle" fill="var(--text-muted)" fontSize="13" fontWeight="500">
             Track · Reduce · Thrive
           </text>
         </svg>
       </div>
-      <div className="absolute -top-4 -right-4 glass rounded-2xl px-4 py-3 shadow-lg animate-slide-up">
-        <p className="text-xs text-slate-500">Green Score</p>
-        <p className="text-xl font-bold text-emerald-500">85</p>
+      <div className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 card px-3 sm:px-4 py-2.5 sm:py-3 animate-slide-up">
+        <p className="text-[10px] sm:text-xs text-muted">Green Score</p>
+        <p className="text-lg sm:text-xl font-bold text-[var(--brand-primary)]">85</p>
       </div>
-      <div className="absolute -bottom-4 -left-4 glass rounded-2xl px-4 py-3 shadow-lg animate-slide-up" style={{ animationDelay: '0.2s' }}>
-        <p className="text-xs text-slate-500">CO₂ Saved</p>
-        <p className="text-xl font-bold text-teal-500">-12%</p>
+      <div className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 card px-3 sm:px-4 py-2.5 sm:py-3 animate-slide-up">
+        <p className="text-[10px] sm:text-xs text-muted">CO₂ Saved</p>
+        <p className="text-lg sm:text-xl font-bold text-[var(--brand-secondary)]">-12%</p>
       </div>
     </div>
   )

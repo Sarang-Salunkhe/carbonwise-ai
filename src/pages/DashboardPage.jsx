@@ -37,7 +37,7 @@ export default function DashboardPage() {
   const { breakdown, totalFootprint } = footprint
 
   return (
-    <div>
+    <div className="space-y-8 sm:space-y-10">
       <ResultsBanner
         show={showBanner}
         onDismiss={() => setBannerDismissed(true)}
@@ -46,52 +46,49 @@ export default function DashboardPage() {
       />
 
       <SectionHeader
-        title="Your Sustainability Hub"
+        badge="Sustainability Hub"
+        title="Your Dashboard"
         subtitle="Everything you need to understand, improve, and track your carbon footprint — all in one place."
       />
 
-      <section id="summary" className="scroll-mt-24 mb-10" aria-labelledby="summary-heading">
+      <section id="summary" className="scroll-mt-20" aria-labelledby="summary-heading">
         <h2 id="summary-heading" className="sr-only">Summary</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <GlassCard className="md:col-span-2 lg:col-span-1 flex flex-col items-center justify-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5">
+          <GlassCard className="sm:col-span-2 xl:col-span-1 flex flex-col items-center justify-center py-6">
             <CircularScore
               score={state.currentScore}
               grade={state.currentGrade?.grade}
               label={state.currentGrade?.label}
-              size={140}
+              size={130}
             />
           </GlassCard>
 
           <GlassCard>
-            <p className="text-sm text-slate-500">Total Carbon Footprint</p>
-            <p className="text-3xl font-bold text-slate-900 dark:text-white mt-2">
-              {totalFootprint.toLocaleString()}
-            </p>
-            <p className="text-sm text-slate-500 mt-1">kg CO₂ per year</p>
+            <p className="label text-muted">Total Carbon Footprint</p>
+            <p className="metric-value mt-2">{totalFootprint.toLocaleString()}</p>
+            <p className="text-xs text-muted mt-1">kg CO₂ per year</p>
           </GlassCard>
 
           <GlassCard>
-            <p className="text-sm text-slate-500">Sustainability Grade</p>
-            <p className="text-3xl font-bold gradient-text mt-2">{state.currentGrade?.grade}</p>
-            <p className="text-sm text-slate-500 mt-1">{state.currentGrade?.label}</p>
+            <p className="label text-muted">Sustainability Grade</p>
+            <p className="metric-value gradient-text mt-2">{state.currentGrade?.grade}</p>
+            <p className="text-xs text-muted mt-1">{state.currentGrade?.label}</p>
           </GlassCard>
 
           <GlassCard>
-            <p className="text-sm text-slate-500">vs Global Average</p>
-            <p className={`text-3xl font-bold mt-2 ${totalFootprint < 4800 ? 'text-emerald-500' : 'text-amber-500'}`}>
+            <p className="label text-muted">vs Global Average</p>
+            <p className={`metric-value mt-2 ${totalFootprint < 4800 ? 'text-[var(--color-success)]' : 'text-[var(--color-warning)]'}`}>
               {totalFootprint < 4800 ? 'Below' : 'Above'}
             </p>
-            <p className="text-sm text-slate-500 mt-1">4,800 kg benchmark</p>
+            <p className="text-xs text-muted mt-1">4,800 kg benchmark</p>
           </GlassCard>
         </div>
       </section>
 
-      <section id="breakdown" className="scroll-mt-24 mb-10" aria-labelledby="breakdown-heading">
-        <h2 id="breakdown-heading" className="text-xl font-bold text-slate-900 dark:text-white mb-6">
-          Emissions Breakdown
-        </h2>
+      <section id="breakdown" className="scroll-mt-20" aria-labelledby="breakdown-heading">
+        <h2 id="breakdown-heading" className="heading-lg mb-4 sm:mb-6">Emissions Breakdown</h2>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 mb-5 sm:mb-6">
           {Object.entries(breakdown).map(([category, value]) => (
             <CategoryCard
               key={category}
@@ -102,30 +99,21 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
           <GlassCard>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Distribution</h3>
+            <h3 className="heading-lg text-base mb-3 sm:mb-4">Distribution</h3>
             <EmissionPieChart breakdown={breakdown} />
           </GlassCard>
           <GlassCard>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Category Comparison</h3>
+            <h3 className="heading-lg text-base mb-3 sm:mb-4">Category Comparison</h3>
             <EmissionBarChart breakdown={breakdown} />
           </GlassCard>
         </div>
       </section>
 
-      <div className="mb-10">
-        <DashboardRecommendations footprint={footprint} limit={3} />
-      </div>
-
-      <div className="mb-10">
-        <DashboardCoach footprint={footprint} score={state.currentScore} limit={3} />
-      </div>
-
-      <div className="mb-10">
-        <DashboardAchievements achievementIds={state.achievements} />
-      </div>
-
+      <DashboardRecommendations footprint={footprint} limit={3} />
+      <DashboardCoach footprint={footprint} score={state.currentScore} limit={3} />
+      <DashboardAchievements achievementIds={state.achievements} />
       <DashboardNextSteps />
     </div>
   )

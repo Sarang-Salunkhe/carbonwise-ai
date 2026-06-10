@@ -7,16 +7,26 @@ export default function AchievementBadge({ achievement }) {
 
   return (
     <GlassCard
-      className={`text-center transition-all ${unlocked ? '' : 'opacity-50 grayscale'}`}
+      className={`text-center transition-all ${unlocked ? '' : 'opacity-55'}`}
+      padding="sm"
       aria-label={`${achievement.title} achievement${unlocked ? ' unlocked' : ' locked'}`}
     >
-      <div className={`inline-flex p-4 rounded-2xl mb-4 ${unlocked ? 'bg-gradient-to-br from-emerald-500/20 to-teal-500/20' : 'bg-slate-200 dark:bg-slate-700'}`}>
-        <Icon className={`w-8 h-8 ${unlocked ? 'text-emerald-500' : 'text-slate-400'}`} />
+      <div
+        className={`inline-flex p-3 sm:p-4 rounded-2xl mb-3 sm:mb-4 ${
+          unlocked
+            ? 'bg-[color-mix(in_srgb,var(--brand-primary)_12%,transparent)] border border-[color-mix(in_srgb,var(--brand-primary)_15%,transparent)]'
+            : 'bg-[var(--surface-interactive)]'
+        }`}
+      >
+        <Icon
+          className={`w-6 h-6 sm:w-7 sm:h-7 ${unlocked ? 'text-[var(--brand-primary)]' : 'text-muted'}`}
+          aria-hidden="true"
+        />
       </div>
-      <h3 className="font-semibold text-slate-900 dark:text-white">{achievement.title}</h3>
-      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">{achievement.description}</p>
+      <h3 className="heading-lg text-sm sm:text-base">{achievement.title}</h3>
+      <p className="mt-1 text-xs sm:text-sm text-muted leading-snug">{achievement.description}</p>
       {unlocked && (
-        <span className="inline-block mt-3 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+        <span className="inline-block mt-2 sm:mt-3 text-xs font-medium text-[var(--brand-primary)]">
           Unlocked
         </span>
       )}

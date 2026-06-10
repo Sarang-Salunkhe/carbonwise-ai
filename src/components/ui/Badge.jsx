@@ -1,13 +1,18 @@
-const impactColors = {
-  High: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-  Medium: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
-  Low: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+const impactStyles = {
+  High: 'bg-[color-mix(in_srgb,var(--color-error)_12%,transparent)] text-[var(--color-error)] border-[color-mix(in_srgb,var(--color-error)_20%,transparent)]',
+  Medium: 'bg-[color-mix(in_srgb,var(--color-warning)_12%,transparent)] text-[var(--color-warning)] border-[color-mix(in_srgb,var(--color-warning)_20%,transparent)]',
+  Low: 'bg-[color-mix(in_srgb,var(--color-success)_12%,transparent)] text-[var(--color-success)] border-[color-mix(in_srgb,var(--color-success)_20%,transparent)]',
 }
 
 export default function Badge({ children, impact, className = '' }) {
-  const colorClass = impact ? impactColors[impact] : 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+  const style = impact
+    ? impactStyles[impact]
+    : 'bg-[var(--surface-interactive)] text-[var(--text-secondary)] border-[var(--border-default)]'
+
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClass} ${className}`}>
+    <span
+      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${style} ${className}`}
+    >
       {children}
     </span>
   )

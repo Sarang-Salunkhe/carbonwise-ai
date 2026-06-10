@@ -1,10 +1,22 @@
-export default function GlassCard({ children, className = '', hover = false, ...props }) {
+import { forwardRef } from 'react'
+
+const GlassCard = forwardRef(function GlassCard(
+  { children, className = '', hover = false, padding = 'default', ...props },
+  ref,
+) {
+  const paddingClass = padding === 'sm' ? 'p-4' : padding === 'lg' ? 'p-8' : 'p-5 sm:p-6'
+
   return (
     <div
-      className={`glass rounded-2xl p-6 ${hover ? 'transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-0.5' : ''} ${className}`}
+      ref={ref}
+      className={`card ${paddingClass} ${
+        hover ? 'card-interactive cursor-default' : ''
+      } ${className}`}
       {...props}
     >
       {children}
     </div>
   )
-}
+})
+
+export default GlassCard
