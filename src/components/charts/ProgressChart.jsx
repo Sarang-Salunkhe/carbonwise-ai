@@ -1,8 +1,11 @@
 import { memo, useMemo } from 'react'
 import { Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts'
 import { getTooltipStyle, getGridColor, getAxisColor } from '../../data/chartTheme'
+import { useTheme } from '../../hooks/useTheme'
 
 function ProgressChart({ history }) {
+  useTheme()
+
   const data = useMemo(
     () =>
       history?.map((entry) => ({
@@ -26,6 +29,27 @@ function ProgressChart({ history }) {
 
   return (
     <div className="chart-container w-full" role="img" aria-label="Carbon footprint progress chart">
+      <div className="sr-only">
+        <table>
+          <caption>Carbon footprint progress over time</caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Footprint (kg CO₂/yr)</th>
+              <th scope="col">Green Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row, idx) => (
+              <tr key={idx}>
+                <td>{row.name}</td>
+                <td>{row.footprint.toLocaleString()} kg CO₂</td>
+                <td>{row.score}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <ResponsiveContainer width="100%" height="100%" debounce={50}>
         <AreaChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
           <defs>

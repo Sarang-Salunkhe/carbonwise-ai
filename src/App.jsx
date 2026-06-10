@@ -7,6 +7,7 @@ import CalculatorPage from './pages/CalculatorPage'
 import DashboardPage from './pages/DashboardPage'
 import SimulatorPage from './pages/SimulatorPage'
 import ProgressPage from './pages/ProgressPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
               <Route path="recommendations" element={<Navigate to="/dashboard#recommendations" replace />} />
               <Route path="coach" element={<Navigate to="/dashboard#coach" replace />} />
               <Route path="achievements" element={<Navigate to="/dashboard#achievements" replace />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

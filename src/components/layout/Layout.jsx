@@ -12,7 +12,8 @@ export default function Layout() {
   const location = useLocation()
   const journey = useJourneyProgress()
 
-  const showJourney = location.pathname !== '/'
+  const validPaths = ['/calculator', '/dashboard', '/simulator', '/progress', '/recommendations', '/coach', '/achievements']
+  const showJourney = location.pathname !== '/' && validPaths.includes(location.pathname)
 
   const journeyProps = useMemo(
     () => ({
@@ -25,11 +26,18 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen gradient-bg flex flex-col overflow-x-hidden">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-[var(--brand-primary)] text-white px-4 py-2.5 rounded-[var(--radius-md)] z-50 text-sm font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--brand-primary)]"
+      >
+        Skip to content
+      </a>
       <ScrollToTop />
       <Navbar theme={theme} onToggleTheme={toggleTheme} />
       <main
         id="main-content"
-        className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8"
+        className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 focus:outline-none"
+        tabIndex="-1"
       >
         {showJourney && <JourneyBar {...journeyProps} />}
         <Outlet />

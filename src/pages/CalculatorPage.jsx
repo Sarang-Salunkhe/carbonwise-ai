@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Calculator } from 'lucide-react'
 import { useCarbon } from '../hooks/useCarbon'
+import { validateInputs } from '../utils/validation'
 import SectionHeader from '../components/ui/SectionHeader'
 import Button from '../components/ui/Button'
 import GlassCard from '../components/ui/GlassCard'
@@ -15,8 +16,11 @@ export default function CalculatorPage() {
   const [justCalculated, setJustCalculated] = useState(false)
 
   const footprint = state.currentFootprint
+  const errors = validateInputs(state.inputs)
+  const hasErrors = Object.keys(errors).length > 0
 
   const handleCalculate = () => {
+    if (hasErrors) return
     calculate()
     setJustCalculated(true)
   }
@@ -35,10 +39,10 @@ export default function CalculatorPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         <div className="lg:col-span-2 min-w-0">
-          <CalculatorForm inputs={state.inputs} onUpdate={updateInputs} />
+          <CalculatorForm inputs={state.inputs} onUpdate={updateInputs} errors={errors} />
 
           <div className="mt-5 sm:mt-6">
-            <Button size="lg" onClick={handleCalculate} className="w-full sm:w-auto">
+            <Button size="lg" onClick={handleCalculate} className="w-full sm:w-auto" disabled={hasErrors}>
               <Calculator className="w-5 h-5" aria-hidden="true" />
               Calculate My Footprint
             </Button>

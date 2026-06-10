@@ -30,6 +30,25 @@ function EmissionPieChart({ breakdown }) {
 
   return (
     <div className="chart-container w-full" role="img" aria-label="Emission breakdown pie chart">
+      <div className="sr-only">
+        <table>
+          <caption>Emission breakdown by category</caption>
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col">Emissions (kg CO₂/yr)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row.name}>
+                <td>{row.name}</td>
+                <td>{row.value.toLocaleString()} kg CO₂</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <ResponsiveContainer width="100%" height="100%" debounce={50}>
         <PieChart>
           <Pie

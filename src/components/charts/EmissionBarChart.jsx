@@ -1,6 +1,7 @@
 import { memo, useMemo } from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { getChartColors, getTooltipStyle, getGridColor, getAxisColor } from '../../data/chartTheme'
+import { useTheme } from '../../hooks/useTheme'
 
 const LABELS = {
   transportation: 'Transport',
@@ -11,6 +12,7 @@ const LABELS = {
 }
 
 function EmissionBarChart({ breakdown }) {
+  const { theme } = useTheme()
   const colors = getChartColors()
   const gridColor = getGridColor()
   const axisColor = getAxisColor()
@@ -30,6 +32,25 @@ function EmissionBarChart({ breakdown }) {
 
   return (
     <div className="chart-container w-full" role="img" aria-label="Emission breakdown bar chart">
+      <div className="sr-only">
+        <table>
+          <caption>Emission breakdown by category</caption>
+          <thead>
+            <tr>
+              <th scope="col">Category</th>
+              <th scope="col">Emissions (kg CO₂/yr)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row.name}>
+                <td>{row.name}</td>
+                <td>{row.emissions.toLocaleString()} kg CO₂</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <ResponsiveContainer width="100%" height="100%" debounce={50}>
         <BarChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
@@ -52,11 +73,14 @@ function EmissionBarChart({ breakdown }) {
           />
           <Bar
             dataKey="emissions"
-            fill={colors[0]}
             radius={[6, 6, 0, 0]}
             maxBarSize={48}
             isAnimationActive={false}
-          />
+          >
+            {data.map((entry, index) => (
+              <Cell key={`bar-cell-${theme}-${index}`} fill={colors[index % colors.length]} />
+            ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>

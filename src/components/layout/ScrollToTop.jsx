@@ -5,6 +5,7 @@ export default function ScrollToTop() {
   const { pathname, hash } = useLocation()
   const prevPathname = useRef(pathname)
   const prevHash = useRef(hash)
+  const isFirstMount = useRef(true)
 
   useEffect(() => {
     const pathnameChanged = prevPathname.current !== pathname
@@ -13,18 +14,23 @@ export default function ScrollToTop() {
     prevPathname.current = pathname
     prevHash.current = hash
 
-    if (hash && hashChanged) {
+    if (hash && (hashChanged || pathnameChanged || isFirstMount.current)) {
       const id = hash.replace('#', '')
-      const el = document.getElementById(id)
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-      return
+      const timer = setTimeout(() => {
+        const el = document.getElementById(id)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
+      isFirstMount.current = false
+      return () => clearTimeout(timer)
     }
 
-    if (pathnameChanged) {
+    if (pathnameChanged && !hash) {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     }
+
+    isFirstMount.current = false
   }, [pathname, hash])
 
   return null

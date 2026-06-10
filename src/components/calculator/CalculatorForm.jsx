@@ -44,33 +44,56 @@ function Select({ id, value, onChange, options }) {
   )
 }
 
-function NumberInput({ id, value, onChange, min = 0, max = 10000, step = 1, unit }) {
+function NumberInput({ id, value, onChange, min, max, step = 1, unit, error }) {
+  const hasError = !!error
   return (
-    <div className="relative">
-      <input
-        id={id}
-        type="number"
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        min={min}
-        max={max}
-        step={step}
-        className={`input-base ${unit ? 'pr-14' : ''}`}
-        aria-describedby={unit ? `${id}-unit` : undefined}
-      />
-      {unit && (
-        <span
-          id={`${id}-unit`}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted pointer-events-none"
+    <div>
+      <div className="relative">
+        <input
+          id={id}
+          type="number"
+          value={value}
+          onChange={(e) => {
+            const val = e.target.value
+            onChange(val === '' ? '' : Number(val))
+          }}
+          min={min}
+          max={max}
+          step={step}
+          className={`input-base ${unit ? 'pr-14' : ''} ${
+            hasError ? 'border-[var(--color-error)] focus:ring-[color-mix(in_srgb,var(--color-error)_20%,transparent)]' : ''
+          }`}
+          aria-describedby={
+            [
+              unit ? `${id}-unit` : null,
+              hasError ? `${id}-error` : null
+            ].filter(Boolean).join(' ') || undefined
+          }
+          aria-invalid={hasError ? 'true' : undefined}
+        />
+        {unit && (
+          <span
+            id={`${id}-unit`}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted pointer-events-none"
+          >
+            {unit}
+          </span>
+        )}
+      </div>
+      {hasError && (
+        <p
+          id={`${id}-error`}
+          className="text-xs text-[var(--color-error)] mt-1.5 animate-fade-in"
+          role="alert"
         >
-          {unit}
-        </span>
+          {error}
+        </p>
       )}
     </div>
   )
 }
 
-export default function CalculatorForm({ inputs, onUpdate }) {
+export default function CalculatorForm({ inputs, onUpdate, errors = {} }) {
   const t = inputs.transportation
   const f = inputs.food
   const e = inputs.energy
@@ -97,6 +120,9 @@ export default function CalculatorForm({ inputs, onUpdate }) {
               value={t.distancePerDay}
               onChange={(v) => onUpdate('transportation', { distancePerDay: v })}
               unit="km"
+              min={0}
+              max={500}
+              error={errors.distancePerDay}
             />
           </div>
           <div>
@@ -108,6 +134,7 @@ export default function CalculatorForm({ inputs, onUpdate }) {
               min={0}
               max={7}
               unit="days"
+              error={errors.daysPerWeek}
             />
           </div>
         </div>
@@ -134,6 +161,9 @@ export default function CalculatorForm({ inputs, onUpdate }) {
               value={e.monthlyElectricity}
               onChange={(v) => onUpdate('energy', { monthlyElectricity: v })}
               unit="kWh"
+              min={0}
+              max={5000}
+              error={errors.monthlyElectricity}
             />
           </div>
           <div>
@@ -143,6 +173,9 @@ export default function CalculatorForm({ inputs, onUpdate }) {
               value={e.acHoursPerDay}
               onChange={(v) => onUpdate('energy', { acHoursPerDay: v })}
               unit="hrs"
+              min={0}
+              max={24}
+              error={errors.acHoursPerDay}
             />
           </div>
           <div>
@@ -154,6 +187,7 @@ export default function CalculatorForm({ inputs, onUpdate }) {
               min={1}
               max={20}
               unit="people"
+              error={errors.householdSize}
             />
           </div>
         </div>
