@@ -1,4 +1,4 @@
-# 🌱 CarbonWise AI
+# 🌱 CarbonWise
 
 ![React](https://img.shields.io/badge/React-19-blue)
 ![Vite](https://img.shields.io/badge/Vite-8-purple)
@@ -14,7 +14,7 @@
 
 Climate change is one of the most pressing global challenges. However, many individuals struggle to understand how their daily activities contribute to carbon emissions.
 
-**CarbonWise AI** addresses this problem by providing an intuitive platform where users can:
+**CarbonWise** addresses this problem by providing an intuitive platform where users can:
 
 * Calculate their carbon footprint
 * Visualize emissions across categories
@@ -27,7 +27,7 @@ Climate change is one of the most pressing global challenges. However, many indi
 
 # 🚀 Solution Overview
 
-CarbonWise AI transforms complex sustainability metrics into actionable insights.
+CarbonWise transforms complex sustainability metrics into actionable insights.
 
 The platform analyzes a user's lifestyle across multiple categories and presents:
 
@@ -151,7 +151,7 @@ Emission Analysis Engine
 
 # ⚙️ Carbon Calculation Logic
 
-CarbonWise AI calculates emissions using category-based emission factors derived from commonly accepted sustainability datasets and methodologies.
+CarbonWise calculates emissions using category-based emission factors derived from commonly accepted sustainability datasets and methodologies.
 
 Categories:
 

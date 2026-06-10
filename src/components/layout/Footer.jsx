@@ -17,7 +17,7 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
               <Leaf className="w-5 h-5 text-[var(--brand-primary)]" aria-hidden="true" />
-              <span className="font-bold text-heading">CarbonWise AI</span>
+              <span className="font-bold text-heading">CarbonWise</span>
             </div>
             <p className="body-sm text-muted leading-relaxed">
               Making carbon awareness accessible to everyone. Small actions,
@@ -51,7 +51,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-6 sm:pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
           <p className="text-xs sm:text-sm text-muted">
-            © {new Date().getFullYear()} CarbonWise AI. All rights reserved.
+            © {new Date().getFullYear()} CarbonWise. All rights reserved.
           </p>
           <p className="text-xs sm:text-sm text-muted flex items-center gap-1">
             Made with <Heart className="w-3.5 h-3.5 text-[var(--color-error)]" aria-hidden="true" /> for a greener future

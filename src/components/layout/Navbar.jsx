@@ -49,7 +49,7 @@ export default function Navbar({ theme, onToggleTheme }) {
               <Leaf className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
             </div>
             <span className="font-bold text-base sm:text-lg text-heading truncate">
-              Carbon<span className="gradient-text">Wise</span> AI
+              Carbon<span className="gradient-text">Wise</span>
             </span>
           </Link>
 
