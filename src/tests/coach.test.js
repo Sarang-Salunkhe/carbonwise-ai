@@ -32,4 +32,33 @@ describe("Coach", () => {
     expect(Array.isArray(messages)).toBe(true);
     expect(messages.length).toBeGreaterThan(0);
   });
+
+  it("returns welcome message when no footprint exists", () => {
+    const messages = generateCoachMessages(null, 0);
+
+    expect(messages.length).toBeGreaterThan(0);
+  });
+
+  it("handles high score users", () => {
+    const messages = generateCoachMessages(
+      {
+        breakdown: {
+          transportation: 500,
+          food: 500,
+          energy: 200,
+          waste: 100,
+          shopping: 50,
+        },
+        totalFootprint: 1350,
+        inputs: {
+          transportation: { mode: "car", daysPerWeek: 2 },
+          waste: { recycling: "always" },
+          food: { diet: "vegan" },
+        },
+      },
+      90
+    );
+
+    expect(messages.length).toBeGreaterThan(0);
+  });
 });

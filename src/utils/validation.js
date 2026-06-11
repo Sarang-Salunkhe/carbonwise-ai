@@ -2,6 +2,16 @@
  * Validates the carbon calculator inputs and returns an object of errors.
  * If all inputs are valid, returns an empty object.
  */
+
+
+/**
+ * Validates all calculator inputs against accepted limits.
+ * Ensures realistic values before carbon calculations.
+ *
+ * @param {Object} inputs User calculator inputs
+ * @returns {Object} Validation errors keyed by field name
+ */
+
 export function validateInputs(inputs) {
   const errors = {}
 

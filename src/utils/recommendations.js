@@ -2,6 +2,13 @@ import { TRANSPORT_MODES } from '../data/emissionFactors'
 
 const IMPACT_LEVELS = { high: 'High', medium: 'Medium', low: 'Low' }
 
+
+/**
+ * Generates personalized sustainability recommendations.
+ * @param {Object} footprint Calculated footprint data
+ * @returns {Array<Object>} Ranked recommendations
+ */
+
 export function generateRecommendations(footprint) {
   const { breakdown, inputs, totalFootprint } = footprint
   const recommendations = []

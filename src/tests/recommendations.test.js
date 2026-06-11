@@ -35,4 +35,33 @@ describe("Recommendations", () => {
     expect(Array.isArray(recommendations)).toBe(true);
     expect(recommendations.length).toBeGreaterThan(0);
   });
+
+  it("returns maintain recommendation for low footprint", () => {
+    const result = generateRecommendations({
+      breakdown: {
+        transportation: 100,
+        food: 100,
+        energy: 100,
+        waste: 100,
+        shopping: 50,
+      },
+      totalFootprint: 450,
+      inputs: {
+        transportation: {
+          mode: "bike",
+          distancePerDay: 2,
+          daysPerWeek: 2,
+        },
+        food: { diet: "vegan" },
+        energy: { acHoursPerDay: 1 },
+        waste: {
+          recycling: "always",
+          plastic: "low",
+          composting: "often",
+        },
+      },
+    });
+
+    expect(result.length).toBeGreaterThan(0);
+  });
 });

@@ -19,6 +19,14 @@ function categoryScore(annualKg, benchmark) {
   return 15
 }
 
+
+/**
+ * Calculates a sustainability score based on emission categories.
+ * @param {Object} breakdown Emission breakdown by category
+ * @returns {number} Green score between 0 and 100
+ */
+
+
 export function calculateGreenScore(breakdown) {
   const weights = BENCHMARKS.categoryWeights
   let weightedSum = 0
@@ -32,6 +40,13 @@ export function calculateGreenScore(breakdown) {
   return Math.round(Math.min(100, Math.max(0, weightedSum)))
 }
 
+
+/**
+ * Converts a score into a grade and label.
+ * @param {number} score Green score
+ * @returns {{grade:string,label:string}}
+ */
+
 export function getGrade(score) {
   for (const threshold of GRADE_THRESHOLDS) {
     if (score >= threshold.min) {
@@ -40,6 +55,13 @@ export function getGrade(score) {
   }
   return { grade: 'D', label: 'High Impact' }
 }
+
+
+/**
+ * Returns the display color associated with a score.
+ * @param {number} score Green score
+ * @returns {string} Hex color code
+ */
 
 export function getScoreColor(score) {
   if (score >= 90) return '#10b981'

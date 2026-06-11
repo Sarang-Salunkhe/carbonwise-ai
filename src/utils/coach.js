@@ -1,5 +1,13 @@
 import { BENCHMARKS } from '../data/emissionFactors'
 
+
+/**
+ * Generates personalized sustainability coaching messages.
+ * @param {Object|null} footprint User footprint data
+ * @param {number} score Green score
+ * @returns {Array<Object>} Coaching messages
+ */
+
 export function generateCoachMessages(footprint, score) {
   if (!footprint) {
     return [{
